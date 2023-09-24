@@ -5,6 +5,12 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### LOCAL PROPERTIES ###
+src/main/resources/application-LOCAL.properties
+
+### LOCAL PROPERTIES ###
+logs
+
 ### STS ###
 .apt_generated
 .classpath
