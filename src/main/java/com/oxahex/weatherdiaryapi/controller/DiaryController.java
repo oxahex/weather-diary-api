@@ -2,7 +2,6 @@ package com.oxahex.weatherdiaryapi.controller;
 
 import com.oxahex.weatherdiaryapi.domain.Diary;
 import com.oxahex.weatherdiaryapi.service.DiaryService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +24,13 @@ public class DiaryController {
     @ApiOperation(value = "일기 텍스트와 날씨를 이용해 DB에 일기 저장")
     @PostMapping("/create/diary")
     public void createDiary(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            @RequestBody String text
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            @ApiParam(value = "날짜 형식: yyyy-MM-dd", example = "2023-09-23")
+            LocalDate date,
+
+            @RequestBody
+            @ApiParam(value = "작성할 일기 내용")
+            String text
     ) {
         diaryService.createDiary(date, text);
 
@@ -40,7 +44,9 @@ public class DiaryController {
     @ApiOperation(value = "선택한 날짜의 모든 일기 리스트 조회")
     @GetMapping("/read/diary")
     public List<Diary> readDiary(
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        @ApiParam(value = "날짜 형식: yyyy-MM-dd", example = "2023-09-23")
+        LocalDate date
     ) {
         return diaryService.readDiary(date);
     }
@@ -54,8 +60,13 @@ public class DiaryController {
     @ApiOperation(value = "특정 기간에 작성된 모든 일기 리스트 조회")
     @GetMapping("/read/diaries")
     public List<Diary> readDiaries(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            @ApiParam(value = "조회 시작 날짜: yyyy-MM-dd", example = "2023-09-23")
+            LocalDate startDate,
+
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            @ApiParam(value = "조회 종료 날짜: yyyy-MM-dd", example = "2023-09-24")
+            LocalDate endDate
     ) {
         return diaryService.readDiaries(startDate, endDate);
     }
@@ -68,8 +79,13 @@ public class DiaryController {
     @ApiOperation(value = "특정 날짜의 첫 번째 일기 수정")
     @PutMapping("/update/diary")
     public void updateDiary(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @ApiParam(value = "날짜 형식: yyyy-MM-dd") LocalDate date,
-            @RequestBody String text
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            @ApiParam(value = "날짜 형식: yyyy-MM-dd", example = "2023-09-23")
+            LocalDate date,
+
+            @RequestBody
+            @ApiParam(value = "수정할 일기 내용")
+            String text
     ) {
         diaryService.updateDiary(date, text);
     }
@@ -81,7 +97,9 @@ public class DiaryController {
     @ApiOperation(value = "특정 날짜의 모든 일기 삭제")
     @DeleteMapping("/delete/diary")
     public void deleteDiary(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @ApiParam(value = "날짜 형식: yyyy-MM-dd") LocalDate date
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            @ApiParam(value = "날짜 형식: yyyy-MM-dd", example = "2023-09-23")
+            LocalDate date
     ) {
         diaryService.deleteDiary(date);
     }
